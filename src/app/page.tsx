@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ShieldCheck, Vote, Building2 } from "lucide-react";
+import { ShieldCheck, Smartphone, Building2 } from "lucide-react";
 
 export default function HomePage() {
   return (
@@ -19,19 +19,23 @@ export default function HomePage() {
               Bharat E Vote
             </p>
             <h1 className="animate-rise mt-4 max-w-xl text-2xl font-medium leading-snug text-mist sm:text-3xl">
-              Cast your ballot online. Officers run the poll from one portal.
+              Android ballots for voters. Web portal for officers.
             </h1>
             <p className="animate-rise-delay mt-4 max-w-lg text-base text-mist/75">
-              A modern voter experience and admin console for constituency elections —
-              register with your EPIC ID, choose a candidate, and publish results when the
-              count closes.
+              Electors cast votes in the Kotlin voter app. Election officers manage polls,
+              candidates, and tallies here — both share one Firebase project.
             </p>
             <div className="animate-rise-delay mt-8 flex flex-wrap gap-3">
-              <Button asChild size="lg">
-                <Link href="/voter/login">Enter as voter</Link>
-              </Button>
-              <Button asChild size="lg" variant="outline" className="border-mist/30 text-mist hover:bg-mist/10">
+              <Button asChild size="lg" variant="secondary">
                 <Link href="/admin/login">Open officer portal</Link>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="border-mist/30 text-mist hover:bg-mist/10"
+              >
+                <Link href="/voter/login">Web voter demo</Link>
               </Button>
             </div>
           </div>
@@ -39,15 +43,17 @@ export default function HomePage() {
             <div className="absolute inset-0 rounded-2xl border border-mist/15 bg-gradient-to-br from-leaf/30 via-transparent to-saffron/25" />
             <div className="absolute bottom-6 left-6 right-6 space-y-3">
               <div className="rounded-lg border border-mist/20 bg-ink/50 px-4 py-3 backdrop-blur">
-                <p className="text-xs uppercase tracking-wider text-mist/50">Active poll</p>
-                <p className="mt-1 font-display text-lg text-mist">Lok Sabha — Pune Central</p>
+                <p className="text-xs uppercase tracking-wider text-mist/50">Voter client</p>
+                <p className="mt-1 font-display text-lg text-mist">
+                  Kotlin · Compose · Firebase
+                </p>
               </div>
               <div className="flex gap-2">
                 <div className="flex-1 rounded-lg border border-mist/15 bg-mist/10 px-3 py-2 text-xs text-mist/80">
-                  One vote · sealed locally in mock mode
+                  Open <code className="text-saffron">android/</code> in Android Studio
                 </div>
                 <div className="flex-1 rounded-lg border border-mist/15 bg-mist/10 px-3 py-2 text-xs text-mist/80">
-                  Live tallies for officers
+                  Officers use this portal
                 </div>
               </div>
             </div>
@@ -58,19 +64,19 @@ export default function HomePage() {
       <section className="mt-16 grid gap-8 sm:grid-cols-3">
         {[
           {
-            icon: Vote,
-            title: "Voter ballot",
-            body: "Sign in, review open elections for your constituency, and cast a single secure vote.",
+            icon: Smartphone,
+            title: "Android voter app",
+            body: "Login, register with EPIC ID, open ballots, cast one vote, and view results — under android/ in the repo.",
           },
           {
             icon: Building2,
             title: "Officer portal",
-            body: "Create elections, add candidates, open or close voting, and watch results update.",
+            body: "Create elections, add candidates, open or close voting, review voters, and watch tallies update.",
           },
           {
             icon: ShieldCheck,
-            title: "Firebase-ready",
-            body: "Auth and Firestore collections ship with a local mock fallback until you add project keys.",
+            title: "Shared Firebase",
+            body: "One Auth + Firestore project for both clients, with mock fallbacks until google-services.json / env keys are set.",
           },
         ].map((item) => (
           <div key={item.title} className="space-y-3">

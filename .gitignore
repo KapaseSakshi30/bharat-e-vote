@@ -40,3 +40,16 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Android
+android/.gradle/
+android/**/build/
+android/local.properties
+android/.idea/
+android/*.iml
+android/app/google-services.json
+!android/app/google-services.json.example
+android/captures/
+*.apk
+*.aab
+.cxx/

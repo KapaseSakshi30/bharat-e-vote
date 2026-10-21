@@ -1,59 +1,59 @@
 # Bharat E Vote
 
-Secure digital voting for Indian elections — a **voter ballot** and **election officer portal** in one responsive web app.
+Secure digital voting for Indian elections.
 
-Built with **Next.js**, **TypeScript**, **Tailwind CSS**, and **Firebase Auth + Firestore**. When Firebase env vars are missing, the app runs in **local mock mode** with demo accounts and seed elections.
+| Surface | Stack | Path |
+|---------|-------|------|
+| **Voter app** | Kotlin · Jetpack Compose · MVVM · Firebase | [`android/`](./android/) |
+| **Admin / candidate portal** | Next.js · TypeScript · Tailwind · Firebase | repo root (`src/`) |
 
-## Features
+Both share the same Firestore collections: `voters`, `admins`, `elections`, `candidates`, `votes`.
 
-- **Voter:** register with EPIC ID, sign in, open ballots, cast one vote per election, view results
-- **Admin portal:** create elections, add candidates, open/close voting, review voters, watch tallies
-- **Empty / loading / error** states on list and detail flows
-- Works on **mobile and desktop**
+## Android voter app
 
-## Quick start
+```bash
+# Open android/ in Android Studio, then Run ▶
+# Or (after wrapper is generated):
+cd android && ./gradlew :app:assembleDebug
+```
+
+- Package: `com.bharatevote.voter`
+- Mock mode when `android/app/google-services.json` is missing  
+  Demo: `voter@demo.in` / `voter123`
+- Template: `android/app/google-services.json.example`
+- Details: [`android/README.md`](./android/README.md)
+
+## Web admin portal
 
 ```bash
 npm install
-npm run dev -- --port 43147
+npm run dev
+# → http://127.0.0.1:43147
 ```
 
-Open [http://127.0.0.1:43147](http://127.0.0.1:43147).
-
-### Demo accounts (mock mode)
-
-| Role  | Email           | Password  |
-|-------|-----------------|-----------|
-| Voter | `voter@demo.in` | `voter123` |
+| Role | Email | Password (mock) |
+|------|-------|-----------------|
 | Admin | `admin@demo.in` | `admin123` |
+| Voter (web demo only) | `voter@demo.in` | `voter123` |
 
-## Firebase
+Portal routes: `/admin/*` (elections, candidates, voters, tallies). The marketing home also links the legacy web voter flows for demos; **production voters use the Android app**.
 
-1. Copy `.env.example` → `.env.local` and paste your Firebase web config (`NEXT_PUBLIC_FIREBASE_*`).
-2. Enable **Email/Password** Auth and create a **Firestore** database.
-3. Add an `admins/{uid}` document for portal users.
-4. Deploy the sample security rules from the project Firebase setup doc.
+## Firebase (both clients)
 
-Full console steps and sample rules: see `docs` in the Project store, or the summary below.
+1. Create one Firebase project.
+2. **Web:** copy config into `.env.local` from `.env.example` (`NEXT_PUBLIC_FIREBASE_*`).
+3. **Android:** register package `com.bharatevote.voter`, download `google-services.json` → `android/app/`.
+4. Enable **Email/Password** Auth + **Firestore** (prefer `asia-south1`).
+5. Seed an `admins/{uid}` document for portal officers.
+6. Deploy `firestore.rules`.
 
-### Collections
+Full steps: Project store `docs/firebase-setup.md` (or ask the Project for a copy).
 
-`voters`, `admins`, `elections`, `candidates`, `votes`
-
-Vote document IDs use `{voterUid}_{electionId}` so each elector can vote once per election.
-
-## Scripts
-
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Dev server (add `-- --port 43147`) |
-| `npm run build` | Production build |
-| `npm run start` | Serve production build |
-| `npm run lint` | ESLint |
+Vote document IDs: `{voterUid}_{electionId}` (one ballot per elector per election).
 
 ## Spec note
 
-The original Android assignment PDF was not available in the build environment. This slice implements the Project brief: voter + admin surfaces, Firebase-shaped data, and a runnable mock fallback. Native Android can be layered later against the same Firestore model.
+Sakshi Kapase’s resume lists Bharat E-Vote as Android + Ethereum. **This slice uses Firebase** for Auth/Firestore (per Project direction). On-chain voting can be a later phase.
 
 ## License
 
